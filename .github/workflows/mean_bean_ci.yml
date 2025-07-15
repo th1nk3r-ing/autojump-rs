@@ -1,6 +1,9 @@
 name: Mean Bean CI
 
-on: [push, pull_request]
+on:
+  # push:
+  # pull_request:
+  workflow_dispatch:
 
 jobs:
   # This job downloads and stores `cross` as an artifact, so that it can be
@@ -10,7 +13,7 @@ jobs:
   install-cross:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
         with:
           depth: 50
       - uses: XAMPPRocky/get-github-release@v1
@@ -20,7 +23,7 @@ jobs:
           repo: cross
           matches: ${{ matrix.platform }}
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: cross-${{ matrix.platform }}
           path: ${{ steps.cross.outputs.install_path }}
@@ -68,7 +71,7 @@ jobs:
         with:
           depth: 50
 
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4
         with:
           name: cross-apple-darwin
           path: /usr/local/bin/
@@ -99,7 +102,7 @@ jobs:
           depth: 50
 
       - name: Download Cross
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: cross-linux-musl
           path: /tmp/
@@ -124,35 +127,35 @@ jobs:
         target:
           # Linux
           - aarch64-unknown-linux-musl
-          - arm-unknown-linux-musleabi
-          - arm-unknown-linux-musleabihf
-          - armv7-unknown-linux-musleabihf
-          - i686-unknown-linux-musl
-          - mips-unknown-linux-musl
-          - mips64-unknown-linux-muslabi64
-          - mips64el-unknown-linux-muslabi64
-          - mipsel-unknown-linux-musl
-          - powerpc-unknown-linux-gnu
-          - powerpc64-unknown-linux-gnu
-          - powerpc64le-unknown-linux-gnu
-          - s390x-unknown-linux-gnu
-          - sparc64-unknown-linux-gnu
+          # - arm-unknown-linux-musleabi
+          # - arm-unknown-linux-musleabihf
+          # - armv7-unknown-linux-musleabihf
+          # - i686-unknown-linux-musl
+          # - mips-unknown-linux-musl
+          # - mips64-unknown-linux-muslabi64
+          # - mips64el-unknown-linux-muslabi64
+          # - mipsel-unknown-linux-musl
+          # - powerpc-unknown-linux-gnu
+          # - powerpc64-unknown-linux-gnu
+          # - powerpc64le-unknown-linux-gnu
+          # - s390x-unknown-linux-gnu
+          # - sparc64-unknown-linux-gnu
           - x86_64-unknown-linux-musl
 
           # Android
           - aarch64-linux-android
-          - arm-linux-androideabi
-          - armv7-linux-androideabi
-          - i686-linux-android
-          - x86_64-linux-android
+          # - arm-linux-androideabi
+          # - armv7-linux-androideabi
+          # - i686-linux-android
+          # - x86_64-linux-android
           # *BSD
           # The FreeBSD targets can have issues linking so they are disabled
           # by default.
           # - i686-unknown-freebsd
           # - x86_64-unknown-freebsd
-          - x86_64-unknown-netbsd
+          # - x86_64-unknown-netbsd
           # DragonFly (Doesn't currently work)
           # - x86_64-unknown-dragonfly
           # Solaris
-          - sparcv9-sun-solaris
-          - x86_64-sun-solaris
+          # - sparcv9-sun-solaris
+          # - x86_64-sun-solaris

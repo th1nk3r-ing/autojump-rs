@@ -31,7 +31,7 @@ pub fn complete(config: &Config, needles: Vec<String>) {
 
     match prepare_query(&needles, false, 9, false) {
         Query::Execute(query) => {
-            let real_needle = query.needles[0].clone();
+            let real_needle = query.needles[0];
             let result = do_query(config, query);
             // Convert to `&str` for tab entry info creation.
             let result: Vec<_> = result
